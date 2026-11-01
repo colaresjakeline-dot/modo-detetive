@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Missão Dados: Modo Detetive</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:Inter,system-ui,sans-serif}
+body{background:#0a0e1a;color:#e8ecff;min-height:100vh;display:flex;justify-content:center;padding:14px}
+.container{max-width:430px;width:100%}
+.card{background:#131a30;border-radius:18px;padding:20px;margin-top:10px;border:1px solid #26325f}
+.badge{background:#ff3b6b;color:white;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:800}
+.p{color:#9aa3c8;font-size:14px;line-height:1.5;margin-bottom:10px}
+.btn{width:100%;padding:13px;border-radius:10px;border:0;font-weight:800;font-size:15px;cursor:pointer;margin-top:8px}
+.btn-p{background:#4f6bff;color:white} .btn-s{background:#1e2647;color:#aab4e0}
+.graph{background:#0b1022;border:1px dashed #2e3a6b;border-radius:12px;padding:12px;margin:10px 0}
+.bar{display:flex;gap:6px;align-items:flex-end;height:100px}
+.bar-i{flex:1;border-radius:6px 6px 0 0;display:flex;justify-content:center;align-items:flex-end;padding-bottom:5px;font-size:11px;font-weight:800;color:white}
+.opt{padding:11px;border:1px solid #25305a;border-radius:10px;margin:7px 0;cursor:pointer;background:#1a2344;font-size:14px}
+.opt.c{background:#102a22;border-color:#1dd4a0} .opt.w{background:#2e1420;border-color:#ff4d6a}
+.feed{background:#0f1933;border-left:4px solid #1dd4a0;padding:10px;border-radius:8px;font-size:13px;line-height:1.5;margin-top:10px}
+.hidden{display:none} .tag{font-size:11px;background:#1e2647;padding:3px 8px;border-radius:10px;color:#7d89b8}
+</style>
+</head>
+<body>
+<div class="container">
+<div id="s0" class="card">
+<span class="badge">MODO DETETIVE - SEM CADASTRO</span>
+<h1>3 posts virais.<br>3 gráficos com truque.<br>Você acha o erro?</h1>
+<p class="p">Você foi contratado pra revisar redes sociais. Se deixar gráfico manipulado passar, vira meme e a empresa perde cliente.</p>
+<p class="p"><b>⏱ 4 min | 📱 Celular | 🧠 3 falácias que caem em prova</b></p>
+<button class="btn btn-p" onclick="go(1)">Começar investigação →</button>
+</div>
+<div id="s1" class="card hidden"><div style="display:flex;justify-content:space-between"><span class="tag">CASO 1/3 - EIXO CORTADO</span><span id="score">⭐ 0/3</span></div>
+<h2 style="margin-top:10px">Caso da República: "Consumo de água caiu 50%!"</h2>
+<div class="graph"><b style="font-size:13px">Consumo litros/dia</b><div class="bar"><div class="bar-i" style="height:90%;background:#ff3b6b">50L Jan</div><div class="bar-i" style="height:15%;background:#4f6bff">48L Jun</div></div><p style="font-size:10px;color:#ff8a9a">Eixo Y: começa em 45L, não em 0</p></div>
+<p class="p" style="color:white;font-weight:700">Onde está a manipulação?</p><div id="q1"></div><div id="f1" class="feed hidden"></div><button id="n1" class="btn btn-p hidden" onclick="go(2)">Próximo →</button></div>
+<div id="s2" class="card hidden"><div style="display:flex;justify-content:space-between"><span class="tag">CASO 2/3 - CORRELAÇÃO FALSA</span><span id="score2">⭐ 0/3</span></div>
+<h2 style="margin-top:10px">Caso do Café: "Café aumenta sua nota!"</h2>
+<div class="graph"><b style="font-size:13px">Café x Nota</b><p style="font-size:10px;color:#9aa3c8">*Quem toma mais café também estuda até 2h da manhã</p></div>
+<p class="p" style="color:white;font-weight:700">Café CAUSA nota alta?</p><div id="q2"></div><div id="f2" class="feed hidden"></div><button id="n2" class="btn btn-p hidden" onclick="go(3)">Próximo →</button></div>
+<div id="s3" class="card hidden"><div style="display:flex;justify-content:space-between"><span class="tag">CASO 3/3 - AMOSTRA MINÚSCULA</span><span id="score3">⭐ 0/3</span></div>
+<h2 style="margin-top:10px">Caso do Curso: "100% aprovados!"</h2>
+<div class="graph"><div style="width:100px;height:100px;border-radius:50%;background:#1dd4a0;margin:10px auto;display:flex;align-items:center;justify-content:center;font-weight:900">100%</div><p style="font-size:11px;text-align:center;color:#9aa3c8">3 alunos. Todos amigos do dono.</p></div>
+<p class="p" style="color:white;font-weight:700">Por que conclusão é fraca?</p><div id="q3"></div><div id="f3" class="feed hidden"></div><button id="n3" class="btn btn-p hidden" onclick="go(4)">Veredito →</button></div>
+<div id="s4" class="card hidden"><span class="badge">VEREDITO FINAL</span><h1 id="endT"></h1><p id="endS" style="font-size:22px;font-weight:900;color:#1dd4a0;margin:8px 0"></p><p class="p" id="endD"></p><button class="btn btn-p" onclick="go(0)">Jogar de novo</button><button class="btn btn-s" onclick="alert('Print essa tela! É evidência pro Template 3')">Salvar evidência</button></div>
+</div>
+<script>
+let ac=0;const cases=[{qs:[{t:"O número está errado",c:false,exp:"Número certo (50→48). Truque é VISUAL: eixo começa em 45, não em 0. Queda de 2L parece 50%. Isso é EIXO TRUNCADO."},{t:"Eixo Y não começa em zero, exagera diferença",c:true,exp:"EXATO! EIXO TRUNCADO. Queda real 4%, no gráfico parece 80%. Você impediu fake news!"},{t:"Faltam dados de outros meses",c:false,exp:"Erro principal é eixo cortado, não falta de meses."}]},{qs:[{t:"Sim, café deixa mais inteligente",c:false,exp:"CORRELAÇÃO ESPÚRIA. Quem toma café também estuda até tarde. Causa é HORAS DE ESTUDO, variável de confusão."},{t:"Não, correlação não é causa, tem variável oculta",c:true,exp:"PERFEITO! Variável oculta: horas de estudo. Café e nota sobem juntos por noites viradas. Salvou a empresa!"},{t:"Precisa de mais cafés pra provar",c:false,exp:"Mais dados iguais não resolve. Precisa isolar variável."}]},{qs:[{t:"Porque 3 pessoas é amostra muito pequena e enviesada",c:true,exp:"EXATO! 100% de 3 não vale. CHERRY PICKING + amostra minúscula. Precisa amostra grande e aleatória."},{t:"Porque gráfico de pizza não serve",c:false,exp:"Pizza serve, problema é n=3. Erro é estatístico, não visual."},{t:"Porque faltou grupo controle",c:false,exp:"Grupo controle ajuda, mas erro maior é n=3."}]}];
+function go(n){document.querySelectorAll('[id^=s]').forEach(e=>e.classList.add('hidden'));if(n===0){ac=0;document.getElementById('s0').classList.remove('hidden');return}if(n===4){document.getElementById('s4').classList.remove('hidden');document.getElementById('endS').innerText=`${ac}/3 casos`;document.getElementById('endT').innerText=ac===3?'DETETIVE CHEFE!':ac===2?'Detetive Júnior':'Recruta';document.getElementById('endD').innerText=ac===3?'Você desmascarou os 3 truques mais usados em fake news.':'';return}document.getElementById('s'+n).classList.remove('hidden');loadQ(n)}
+function loadQ(n){const data=cases[n-1];const qDiv=document.getElementById('q'+n);qDiv.innerHTML='';data.qs.forEach((o,i)=>{const d=document.createElement('div');d.className='opt';d.innerText=o.t;d.onclick=()=>ans(n,i);qDiv.appendChild(d)});document.getElementById('f'+n).classList.add('hidden');document.getElementById('n'+n).classList.add('hidden');}
+function ans(caso,idx){const data=cases[caso-1];const chosen=data.qs[idx];const opts=document.querySelectorAll('#q'+caso+' .opt');opts.forEach((el,i)=>{el.style.pointerEvents='none';if(data.qs[i].c)el.classList.add('c');else if(i===idx)el.classList.add('w')});const f=document.getElementById('f'+caso);f.innerHTML=`<b>${chosen.c?'✅ ACERTOU':'❌ QUASE'}:</b><br>${chosen.exp}`;f.classList.remove('hidden');document.getElementById('n'+caso).classList.remove('hidden');if(chosen.c)ac++;}
+</script>
+</body>
+</html>
